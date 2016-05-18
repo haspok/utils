@@ -1,0 +1,5 @@
+#!/bin/bash
+
+# Returns the current JDK home dir (for setting JAVA_HOME)
+
+echo `update-alternatives --get-selections |grep javac` | tr ' ' '\n' | grep "/usr/lib/jvm" | xargs dirname | xargs dirname

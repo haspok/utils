@@ -1,0 +1,26 @@
+#!/bin/bash
+
+if [[ $_ != $0 ]]; then
+
+    select_jdk
+    echo $selected_jdk
+
+    sudo update-java-alternatives -s $selected_jdk
+    export JAVA_HOME=$selected_jdk
+else
+    echo "Script should be sourced to update JAVA_HOME (run as \". ./jdk_switch\")"; exit
+fi
+
+function select_jdk()
+{
+    local jdks=()
+    local count=1
+    for i in `ls -d /usr/lib/jvm/*/`; do
+        jdks+=(${i%%/})
+        echo "$count: ${i%%/}"
+        ((count=count+1))
+    done
+    read choice
+    selected_jdk=${jdks[((choice-1))]}
+}
+
