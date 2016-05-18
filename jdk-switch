@@ -1,15 +1,9 @@
 #!/bin/bash
 
-if [[ $_ != $0 ]]; then
-
-    select_jdk
-    echo $selected_jdk
-
-    sudo update-java-alternatives -s $selected_jdk
-    export JAVA_HOME=$selected_jdk
-else
-    echo "Script should be sourced to update JAVA_HOME (run as \". ./jdk_switch\")"; exit
-fi
+# Switch between JDKs installed as alternative java versions,
+# works on Debian/Ubuntu
+#
+# Assumes that the alternative name = directory name
 
 function select_jdk()
 {
@@ -23,4 +17,14 @@ function select_jdk()
     read choice
     selected_jdk=${jdks[((choice-1))]}
 }
+
+if [[ $_ != $0 ]]; then
+    select_jdk
+    echo $selected_jdk
+
+    sudo update-java-alternatives -s $selected_jdk
+    export JAVA_HOME=$selected_jdk
+else
+    echo "Script should be sourced to update JAVA_HOME (run as \". ./jdk_switch\")"; exit
+fi
 
